@@ -1,3 +1,9 @@
 # CRS Debug
 
-这是crs调试工具
+This is a tool for debuging crs.
+
+## Installation
+
+```bash
+pip insall crs_debuger
+```
