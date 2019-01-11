@@ -59,9 +59,9 @@ class Database:
         r = requests.delete(url=self.target_api + endpoint, params=signature)
         return r.json()
 
-    def target_list(self):
+    def target_list(self, start=1, size=5):
         endpoint = "/targets/infos"
-        signature = self.generate_signature()
+        signature = self.generate_signature({"pageSize": size, "pageNum": start})
         r = requests.get(url=self.target_api + endpoint, params=signature)
         return r.json()
 
