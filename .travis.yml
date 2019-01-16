@@ -1,0 +1,11 @@
+language: python
+python:
+- '3.3'
+deploy:
+  provider: pypi
+  user: ywyt738
+  password:
+    secure: qWrNoKMVGApeT+JjXMau0xNSvrDr5+zonkJT/rX+rmDJb1+q7SVjf9i4Ob6dWk97neJ8tzjz9A5cAXmvyDcBauNoptBtr1YXwz7CThixyExgoFy/+CjL7notFaAdafTc9MgAQc4Ms2S8BbFOzuKrUhR+YlqoGAbxeEcH1jYwvqcIrqoyamSf0BltX5/SdJ7BlCsl65pk5Sp2oCpenMVBuN1U1sjdSKSY2w5WYYbVWvRN738qKpc0W7J/tAQlE+agdF3mkdlzUPOU1+rR5phBr5pxQk/Bx4CIH5K1riGkQTTEimaBues6dQnOTjWWtblSyqGgNxYncysGCRadWG8Qh4AtePAkkNagr07AjYkyhRXJNpWl7kTNszp+ClEWGK+JscoS9/t9CJGZeeH9Alqb0AJZzXsEeeNAm0NOfbHa/dM+losnfaA1EXA96LPJlvsDd2vcK8kvLImUAQTaaVoNIZkXfok2hupZmgvglEx3ZWX6vRSSqxoYlJecAogrrLw3U31bQTpipLdB8zqfkBl3muDLnLhZADOrbZwiukml8OOUkJzrELL6Xj1PVJZaJClAv9WjD3lPrz7NtqTFgs3Dc4lrrUyRT15IoTamOy+xDfdTvcxNv3LJr4WCrdRBb39mzTjRqt6ddniiuifzysp+CKjerORaG95NnSNwFbZsbFk=
+  on:
+    distributions: sdist bdist_wheel
+    repo: ywyt738/crs_debuger

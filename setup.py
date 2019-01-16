@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="crs_debuger",
-    version="0.0.2",
+    version="0.0.3",
     author="HuangXiaojun",
     author_email="huangxiaojun@sightp.com",
     description="crs debuger",
