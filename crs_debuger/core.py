@@ -51,19 +51,19 @@ class Database:
         data = dict(ChainMap(_data, kwargs))
         data = self.generate_signature(data)
         r = requests.post(url=self.target_api + endpoint, json=data)
-        return r.json()
+        return r
 
     def del_target(self, target_id):
         endpoint = f"/target/{target_id}"
         signature = self.generate_signature()
         r = requests.delete(url=self.target_api + endpoint, params=signature)
-        return r.json()
+        return r
 
     def target_list(self, start=1, size=5):
         endpoint = "/targets/infos"
         signature = self.generate_signature({"pageSize": size, "pageNum": start})
         r = requests.get(url=self.target_api + endpoint, params=signature)
-        return r.json()
+        return r
 
     def search(self, pic, notracking=False):
         endpoint = "/search/"
@@ -74,4 +74,4 @@ class Database:
             params = {"image": pic_base64}
         signed_params = self.generate_signature(params)
         r = requests.post(url=self.search_api + endpoint, json=signed_params)
-        return r.json()
+        return r
