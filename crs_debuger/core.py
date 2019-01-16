@@ -1,8 +1,8 @@
 import base64
 import datetime
+import functools
 import hashlib
 import pathlib
-from collections import ChainMap
 
 import requests
 from requests.exceptions import InvalidSchema
@@ -10,9 +10,12 @@ from urllib3.util import parse_url
 
 
 class Database:
-    def __init__(self, host, appkey, appsecret, search_port=8080, target_port=8888):
+    def __init__(
+        self, host, appkey, appsecret, search_port=8080, target_port=8888, timeout=None
+    ):
         self.appkey = appkey
         self.appsecret = appsecret
+        self.timeout = timeout
         self._prepare_api_url(host, search_port, target_port)
 
     def _prepare_api_url(self, url, search_port, target_port):
@@ -43,7 +46,16 @@ class Database:
             base64_data = base64.b64encode(f.read())
         return base64_data.decode()
 
-    def add_target(self, image, active="1", name=None, size="20", meta="", **kwargs):
+    def add_target(
+        self,
+        image,
+        active="1",
+        name=None,
+        size="20",
+        meta="",
+        custom_post=None,
+        **kwargs,
+    ):
         # 新增target
         endpoint = "/targets/"
         _p = pathlib.Path(image)
@@ -57,24 +69,28 @@ class Database:
             "meta": meta,
             "type": "ImageTarget",
         }
-        data = dict(ChainMap(_data, kwargs))
-        data = self.generate_signature(data)
-        r = requests.post(url=self.target_api + endpoint, json=data)
+        if isinstance(custom_post, dict):
+            _data = _data.update(custom_post)
+        data = self.generate_signature(_data)
+        kwargs.setdefault("timeout", self.timeout)
+        r = requests.post(url=self.target_api + endpoint, json=data, **kwargs)
         return r
 
-    def del_target(self, target_id):
+    def del_target(self, target_id, **kwargs):
         endpoint = f"/target/{target_id}"
         signature = self.generate_signature()
-        r = requests.delete(url=self.target_api + endpoint, params=signature)
+        kwargs.setdefault("timeout", self.timeout)
+        r = requests.delete(url=self.target_api + endpoint, params=signature, **kwargs)
         return r
 
-    def target_list(self, start=1, size=5):
+    def target_list(self, start=1, size=5, **kwargs):
         endpoint = "/targets/infos"
         signature = self.generate_signature({"pageSize": size, "pageNum": start})
-        r = requests.get(url=self.target_api + endpoint, params=signature)
+        kwargs.setdefault("timeout", self.timeout)
+        r = requests.get(url=self.target_api + endpoint, params=signature, **kwargs)
         return r
 
-    def search(self, pic, notracking=False):
+    def search(self, pic, notracking=False, **kwargs):
         endpoint = "/search/"
         pic_base64 = self._pic2base64(pic)
         if notracking:
@@ -82,5 +98,6 @@ class Database:
         else:
             params = {"image": pic_base64}
         signed_params = self.generate_signature(params)
-        r = requests.post(url=self.search_api + endpoint, json=signed_params)
+        kwargs.setdefault("timeout", self.timeout)
+        r = requests.post(url=self.search_api + endpoint, json=signed_params, **kwargs)
         return r
