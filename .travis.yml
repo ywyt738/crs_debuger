@@ -1,7 +1,7 @@
 language: python
 python:
 - '3.6'
-script: python version
+script: python -V
 deploy:
   provider: pypi
   user: ywyt738
