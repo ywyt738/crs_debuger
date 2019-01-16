@@ -5,14 +5,23 @@ import pathlib
 from collections import ChainMap
 
 import requests
+from requests.exceptions import InvalidSchema
+from urllib3.util import parse_url
 
 
 class Database:
     def __init__(self, host, appkey, appsecret, search_port=8080, target_port=8888):
         self.appkey = appkey
         self.appsecret = appsecret
-        self.search_api = f"{host}:{search_port}"
-        self.target_api = f"{host}:{target_port}"
+        self._prepare_api_url(host, search_port, target_port)
+
+    def _prepare_api_url(self, url, search_port, target_port):
+        scheme, auth, host, port, path, query, fragment = parse_url(url)
+        if scheme is None or scheme == "http":
+            self.search_api = f"http://{host}:{search_port}"
+            self.target_api = f"http://{host}:{target_port}"
+        else:
+            raise InvalidSchema("Invalid scheme %r: Do not supply" % scheme)
 
     def generate_signature(self, data=None):
         if data is None:
