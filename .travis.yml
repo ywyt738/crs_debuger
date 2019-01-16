@@ -7,8 +7,8 @@ deploy:
   user: ywyt738
   password:
     secure: AV3yExj9BUzc1VMU7Ke2XseLCKtLgz/nPRvrqvBvox+DKfBWAvpGQrpcqapt90jgqUSQXygqLt682W+nNi9uBXU7yCN2J/Pttwq6bZ94klBb2+xTNsEYNNIGUCEF9puJZLx5iiTPgfyWIxzt6wmYY8zCZAb0xh5IlYF/QEs1NzvYvoZu1T2CUWxO5DVVJRmqH0MLInRYvAV8kVv4Xh5UGwJVFNPauHjcRM073V8qdsIufnik/E+rSwVwsZd0t5Mrqa8A3728uptON1JepVg1vaIo32B+0klEc1WGH5rz7imZL0gLdeMNopbLEeVce646K2Ty3fx46acsK1TlPfUEwj2YQrF3JCeJB/G6h97BCNPU3aPJg+8QaDReu2cOETGOxyeTJ48nrds0NkPfmRbTs72i0WbYveC3BxUbZ41oF6jLgwA22nhCppsmvRzvS4zRzIq9Kp96QPTSdB6Chd0wo/VwuzfXC+Gonq4LzJNQz7LJgCw83lxsHEv8G+jI13mn+hqnyCPDKE46SDfI00M4lpbVvm59JVvL25AifHg6y6AImY4U6inpZiviKfhcwmphiVjm6Skl9cERwMSdlobK7Zn0aLEaVg+PnWpq9XTAcP8DoBbob/WKOkKZkbJsqp9EMUev8EJ5Knlsrcb63saE7KDJbBjb8jYDsdZXEIgMnDE=
+  skip_cleanup: true
   on:
     tags: true
     distributions: sdist bdist_wheel
     repo: ywyt738/crs_debuger
-    skip_cleanup: true
