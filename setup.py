@@ -5,10 +5,11 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="crs_debuger",
-    version="0.0.4",
+    version="0.0.5",
     author="HuangXiaojun",
     author_email="huangxiaojun@sightp.com",
     description="crs debuger",
+    license='MIT',
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/ywyt738/crs_debuger",
