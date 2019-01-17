@@ -7,6 +7,7 @@ deploy:
   user: ywyt738
   password:
     secure: CV08yhDNYFAN++nOPHaYtr/T2lSOUh8YVaLXNrjNW0ePVyJ8N4EjB2mhvM4Y6rYs8hKo9R+cm5E8VMg5etslnsPl+bGk4Xd99vcwU2YpIkYOwlBiSRmOrQzcl8AfEUsIMVnpUuheGdrf+4QIGrhmbD54CkiKH6TjbKh3Xr1s3gK2h4Hr8EpCpW4LNV0sX18vS0DWhiGyKCbyO6Mp/bArzZVV/emL34xIeCz/iKgl24ZPocVQojlRvpuRSj4RLLdyLaqTbrP7/gWoR9M7sGCA/NVwmdaMeWTIBy8mSa5PBY/cTpiKRPtzf1rliP+zGALw+Bkhvx3mAad9qWLhMSMRvbh6xAvUS5R6r1kGwG16dDqx2KgCj+Gumqtvrwa65yQN4/VkCKk+GJ+3gVzUrgWcUXiPPSxgFrISWep5a9tY4tH/oxe8SRZ2Ww4C4S456qHSjBss7XsBKJk78iNCQAX84WEbqlZ9+AVj4JL+fdj3hB9VsPHIGKYy9XVmdrb4/laj88to3uL2rrJOlyU3DrT0jALlYlStZ+CJrp+AwIGuREFPbt6GTPIgU0HcF/6Sr0QVZmlCSiJ1FYdzWvXjW5n46cBfoPOwaYIkPhSrZR516YvT5riCeWX4UCpoJx7D+zJSpBefBSaWt0A8invVnzvEzZrTfCLvBwaKbN31ZWqAl98=
+  skip_cleanup: true
   on:
     tags: true
     distributions: sdist bdist_wheel
