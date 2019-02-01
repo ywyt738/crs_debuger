@@ -53,6 +53,7 @@ class Database:
         name=None,
         size="20",
         meta="",
+        allow_similar=False,
         custom_post=None,
         **kwargs,
     ):
@@ -68,6 +69,7 @@ class Database:
             "size": size,
             "meta": meta,
             "type": "ImageTarget",
+            "allowSimilar": "0" if not allow_similar else "1"
         }
         if isinstance(custom_post, dict):
             _data = _data.update(custom_post)
