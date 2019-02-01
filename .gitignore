@@ -115,3 +115,7 @@ dmypy.json
 .pyre/
 
 .vscode/
+
+# demo file
+demo.py
+lion.jpg
