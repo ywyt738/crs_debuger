@@ -103,3 +103,11 @@ class Database:
         kwargs.setdefault("timeout", self.timeout)
         r = requests.post(url=self.search_api + endpoint, json=signed_params, **kwargs)
         return r
+
+    def similar(self, pic, **kwargs):
+        endpoint = "/similar/"
+        pic_base64 = self._pic2base64(pic)
+        kwargs.setdefault("timeout", self.timeout)
+        signed_params = self.generate_signature({"image": pic_base64})
+        r = requests.post(url=self.target_api + endpoint, json=signed_params, **kwargs)
+        return r
