@@ -1,6 +1,5 @@
 import base64
 import datetime
-import functools
 import hashlib
 import pathlib
 
@@ -11,18 +10,26 @@ from urllib3.util import parse_url
 
 class Database:
     def __init__(
-        self, host, appkey, appsecret, search_port=8080, target_port=8888, timeout=None
+        self,
+        searcher_host,
+        appkey,
+        appsecret,
+        targeter_host=None,
+        search_port=8080,
+        target_port=8888,
+        timeout=None,
     ):
         self.appkey = appkey
         self.appsecret = appsecret
         self.timeout = timeout
-        self._prepare_api_url(host, search_port, target_port)
+        self.targeter_host = None or searcher_host
+        self.search_api = self._prepare_api_url(searcher_host, search_port)
+        self.target_api = self._prepare_api_url(targeter_host, target_port)
 
-    def _prepare_api_url(self, url, search_port, target_port):
+    def _prepare_api_url(self, url, port):
         scheme, auth, host, port, path, query, fragment = parse_url(url)
         if scheme is None or scheme == "http":
-            self.search_api = f"http://{host}:{search_port}"
-            self.target_api = f"http://{host}:{target_port}"
+            return f"http://{host}:{port}"
         else:
             raise InvalidSchema("Invalid scheme %r: Do not supply" % scheme)
 
@@ -69,7 +76,7 @@ class Database:
             "size": size,
             "meta": meta,
             "type": "ImageTarget",
-            "allowSimilar": "0" if not allow_similar else "1"
+            "allowSimilar": "0" if not allow_similar else "1",
         }
         if isinstance(custom_post, dict):
             _data = _data.update(custom_post)
