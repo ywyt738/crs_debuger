@@ -1,30 +1,58 @@
+import pytest
+import requests
+
 from crs_debuger.core import Database
-from pprint import pprint
 
 
-class Test:
-    def test_add_del(self):
+class Test_Api:
+    @pytest.fixture
+    def db(self):
+        return Database(
+            "www.faker_crs_server",
+            appkey="test_key",
+            appsecret="test_secret",
+            targeter_host="www.faker_crs_targeter",
+        )
 
-        appkey = "huangxiaojunkey"
-        appsecret = "huangxiaojunsecret"
-        pic = "lion.jpg"
+    @pytest.mark.parametrize(
+        "searcher_url, targeter_url, result", (
+            ("api.com", "api.com", True),
+            ("searcher.com", "targeter.com", False)),
+    )
+    def test_searchurl_diff_with_target(self, searcher_url, targeter_url, result):
+        """searcher和targeter地址是否相同"""
+        _db = Database(
+            searcher_host=searcher_url,
+            targeter_host=targeter_url,
+            appkey="appkey",
+            appsecret="secret",
+        )
+        assert (_db.search_api == _db.target_api) == result
 
-        user = Database(cloud="test", appkey=appkey, appsecret=appsecret)
-        # 增加target
-        add_result_json = user.add_target(image=pic)
-        pprint(add_result_json)
-        target_id = add_result_json["result"]["targetId"]
-        print(target_id)
-        assert target_id
-        assert add_result_json["statusCode"] == 0
+    def test_add_target(self, monkeypatch, db):
+        """新增target"""
+        class MockAddTargetResponse:
+            status_code = 200
 
-        # 删除target
-        del_result = user.del_target(target_id)
-        pprint(del_result)
-        assert del_result["statusCode"] == 0
-        # 获取target列表
+            @staticmethod
+            def json():
+                return {"statusCode": 0}
 
-        target_list = user.target_list()
-        pprint(target_list)
+        def mock_get(*args, **kwargs):
+            return MockAddTargetResponse()
 
-        assert len(target_list["result"]["targets"]) == 0
+        monkeypatch.setattr(requests, "post", mock_get)
+
+        result = db.add_target("tests/sightplogo.png")
+        assert result.status_code == 200
+        assert result.json()["statusCode"] == 0
+
+    # TODO: 删除target用例
+    @pytest.mark.skip(reason="未完成")
+    def test_del_target(self):
+        pass
+
+    # TODO: target列表用咧
+    @pytest.mark.skip(reason="未完成")
+    def test_get_target_list(self):
+        pass
