@@ -26,6 +26,7 @@ class Test_Api:
             targeter_host=targeter_url,
             appkey="appkey",
             appsecret="secret",
+            target_port=8080
         )
         assert (_db.search_api == _db.target_api) == result
 
