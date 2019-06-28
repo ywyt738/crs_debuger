@@ -26,10 +26,10 @@ class Database:
         self.search_api = self._prepare_api_url(searcher_host, search_port)
         self.target_api = self._prepare_api_url(targeter_host, target_port)
 
-    def _prepare_api_url(self, url, port):
+    def _prepare_api_url(self, url, p):
         scheme, auth, host, port, path, query, fragment = parse_url(url)
         if scheme is None or scheme == "http":
-            return f"http://{host}:{port}"
+            return f"http://{host}:{p}"
         else:
             raise InvalidSchema("Invalid scheme %r: Do not supply" % scheme)
 
