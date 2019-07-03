@@ -7,6 +7,8 @@ import requests
 from requests.exceptions import InvalidSchema
 from urllib3.util import parse_url
 
+from crs_debuger.response import SearchResponse, TargetListResponse
+
 
 class Database:
     def __init__(
@@ -98,7 +100,7 @@ class Database:
         signature = self.generate_signature({"pageSize": size, "pageNum": start})
         kwargs.setdefault("timeout", self.timeout)
         r = requests.get(url=self.target_api + endpoint, params=signature, **kwargs)
-        return r
+        return TargetListResponse(r)
 
     def search(self, pic, notracking=False, **kwargs):
         endpoint = "/search/"
@@ -110,7 +112,7 @@ class Database:
         signed_params = self.generate_signature(params)
         kwargs.setdefault("timeout", self.timeout)
         r = requests.post(url=self.search_api + endpoint, json=signed_params, **kwargs)
-        return r
+        return SearchResponse(r)
 
     def similar(self, pic, **kwargs):
         endpoint = "/similar/"
