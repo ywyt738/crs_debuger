@@ -27,7 +27,8 @@ class Test_Api:
             appkey="appkey",
             appsecret="secret",
         )
-        assert (_db.search_api == _db.target_api) == result
+        assert _db.search_api == f"http://{searcher_url}:8080"
+        assert _db.target_api == f"http://{targeter_url}:8888"
 
     def test_add_target(self, monkeypatch, db):
         """新增target"""
