@@ -6,13 +6,13 @@ with open("README.md", "r") as fh:
 requires = [
     "requests>=2.20.0",
     "urllib3>=1.23",
-    "websockets == 8.1",
+    "websocket-client == 0.57.0",
     "umsgpack == 0.1.0",
 ]
 
 setuptools.setup(
     name="crs_debuger",
-    version="0.3.0",
+    version="0.4.0",
     author="HuangXiaojun",
     author_email="huangxiaojun@sightp.com",
     description="crs debuger",
