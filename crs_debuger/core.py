@@ -121,3 +121,11 @@ class Database:
         signed_params = self.generate_signature({"image": pic_base64})
         r = requests.post(url=self.target_api + endpoint, json=signed_params, **kwargs)
         return r
+
+    def grade(self, pic, **kwargs):
+        endpoint = "/grade/detection/"
+        pic_base64 = self._pic2base64(pic)
+        kwargs.setdefault("timeout", self.timeout)
+        signed_params = self.generate_signature({"image": pic_base64})
+        r = requests.post(url=self.target_api + endpoint, json=signed_params, **kwargs)
+        return r
