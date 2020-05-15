@@ -1,12 +1,17 @@
+import asyncio
 import base64
 import datetime
 import hashlib
+import json
 import pathlib
 
 import requests
+import umsgpack
+import websockets
 from requests.exceptions import InvalidSchema
 from urllib3.util import parse_url
 
+from crs_debuger.exceptions import GetTunnelIDError
 from crs_debuger.response import SearchResponse, TargetListResponse
 
 
@@ -121,3 +126,28 @@ class Database:
         signed_params = self.generate_signature({"image": pic_base64})
         r = requests.post(url=self.target_api + endpoint, json=signed_params, **kwargs)
         return r
+
+    async def _search_with_websocket(self, images: list) -> list:
+        get_tunnel_endpoint = "/tunnels/"
+        signed_params = self.generate_signature()
+        r = requests.post(url=self.search_api + get_tunnel_endpoint, json=signed_params)
+        try:
+            tunnel_id = r.json().get("result").get("tunnel")
+        except Exception:
+            raise GetTunnelIDError(r.content.decode())
+        ws_uri = (
+            f"{self.search_api.replace('http', 'ws', 1)}/services/recognize/{tunnel_id}"
+        )
+        res = []
+        async with websockets.connect(ws_uri) as websocket:
+            for img in images:
+                with open(img, "rb") as fp:
+                    data = umsgpack.packb({"image": fp.read()})
+                await websocket.send(data)
+                recv = await websocket.recv()
+                res.append(json.loads(recv))
+        return res
+
+    def search_with_websocket(self, images):
+        res = asyncio.get_event_loop().run_until_complete(self._search_with_websocket(images))
+        return res
