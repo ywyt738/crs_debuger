@@ -12,7 +12,7 @@ requires = [
 
 setuptools.setup(
     name="crs_debuger",
-    version="0.4.0",
+    version="0.4.1",
     author="HuangXiaojun",
     author_email="huangxiaojun@sightp.com",
     description="crs debuger",
