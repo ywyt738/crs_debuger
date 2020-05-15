@@ -15,15 +15,6 @@ from crs_debuger.response import SearchResponse, TargetListResponse
 
 
 class Database:
-    __slots__ = [
-        "add_target",
-        "del_target",
-        "target_list",
-        "search",
-        "similar",
-        "grade",
-        "websocket_search_client",
-    ]
 
     def __init__(
         self,
@@ -159,7 +150,6 @@ class Database:
 
 
 class SearchWebSocketClient:
-    __slots__ = ["search", "close"]
 
     def __init__(self, ws_uri):
         self.ws = websocket.WebSocket()
