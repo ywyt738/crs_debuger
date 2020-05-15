@@ -15,6 +15,16 @@ from crs_debuger.response import SearchResponse, TargetListResponse
 
 
 class Database:
+    __slots__ = [
+        "add_target",
+        "del_target",
+        "target_list",
+        "search",
+        "similar",
+        "grade",
+        "websocket_search_client",
+    ]
+
     def __init__(
         self,
         searcher_host,
@@ -149,12 +159,14 @@ class Database:
 
 
 class SearchWebSocketClient:
+    __slots__ = ["search", "close"]
+
     def __init__(self, ws_uri):
         self.ws = websocket.WebSocket()
         self.ws.connect(ws_uri)
 
     def search(self, image):
-        with open(image, "r") as f:
+        with open(image, "rb") as f:
             data = umsgpack.packb({"image": f.read()})
         self.ws.send_binary(data)
         recv = self.ws.recv()
@@ -162,3 +174,9 @@ class SearchWebSocketClient:
 
     def close(self):
         self.ws.close()
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, type, value, trace):
+        self.close()
