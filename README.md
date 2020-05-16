@@ -2,7 +2,7 @@
 
 ![Python package](https://github.com/ywyt738/crs_debuger/workflows/Python%20package/badge.svg)
 ![Upload Python Package](https://github.com/ywyt738/crs_debuger/workflows/Upload%20Python%20Package/badge.svg)
-[pypi](https://img.shields.io/pypi/v/crs_debuger.svg)
+![pypi](https://img.shields.io/pypi/v/crs_debuger.svg)
 ![license](https://img.shields.io/pypi/l/crs_debuger.svg)
 
 > 视辰crs调试sdk
